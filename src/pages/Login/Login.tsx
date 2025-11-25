@@ -17,7 +17,6 @@ const Login: React.FC = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<LoginFormInputs>();
 
     const onSubmit: SubmitHandler<LoginFormInputs> = (data) => {
-        console.log(data);
         login(data.username);
         navigate('/dashboard');
     }
