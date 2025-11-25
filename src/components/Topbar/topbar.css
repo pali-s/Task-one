@@ -1,0 +1,41 @@
+.topbar {
+    height: 10%;
+    width: 100vw;
+    box-sizing:border-box;
+    background-color: brown;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1.5rem;
+    color: white;
+}
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.topbar-right button {
+    padding: 0.4rem 0.8rem;
+    border: none;
+    background-color: white;
+    color: brown;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.topbar-right select{
+    background:transparent;
+    border:none;
+    color:white;
+    font-size:1rem;
+    padding:0.3rem 0.5rem;
+    outline:none;
+}
+
+.topbar-right select option{
+    color:black;
+    background: white;
+}
