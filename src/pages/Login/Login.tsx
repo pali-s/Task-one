@@ -2,7 +2,7 @@ import React from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import './login.css';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../hooks/useAuth';
 
 interface LoginFormInputs {
     username: string;
@@ -12,13 +12,18 @@ interface LoginFormInputs {
 const Login: React.FC = () => {
 
     const navigate = useNavigate();
-    const {login}=useAuth();
+    const {login,isLoggingIn}=useAuth();
 
     const { register, handleSubmit, formState: { errors } } = useForm<LoginFormInputs>();
 
-    const onSubmit: SubmitHandler<LoginFormInputs> = (data) => {
-        login(data.username);
-        navigate('/dashboard');
+    const onSubmit: SubmitHandler<LoginFormInputs> = async(data) => {
+        try{
+        await login(data.username);
+        navigate('/dashboard');}
+        catch(err){
+            console.error('Login failed',err);
+            alert('Login failed');
+        }
     }
 
     return (
@@ -35,7 +40,7 @@ const Login: React.FC = () => {
                     <input {...register('password', { required: 'Password is required' })} type="password" />
                     {errors.password && <span>{errors.password.message}</span>}
                 </div>
-                <button className='submit' type="submit">Login</button>
+                <button className='submit' type="submit" disabled={isLoggingIn}>{isLoggingIn?'Logging in..':'Login'}</button>
             </form>
         </div>
     )
