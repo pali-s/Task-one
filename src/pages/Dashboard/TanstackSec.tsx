@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Postform from '../../components/Postform/Postform';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { deletePost, fetchPosts, updatePostById } from '../../api/posts';
+// import './tanstack.css'
 
 const TanstackSec: React.FC = () => {
     const queryClient = useQueryClient();
@@ -70,6 +71,7 @@ const TanstackSec: React.FC = () => {
     return (<><h1>Practice Page</h1>
         <Postform />
         <h2 style={{textAlign:'center'}}>Find Your Post Here:</h2>
+        <div className="container">
         {posts.map((post: any) => (
             <div key={post.id}>
                 <h3 onClick={() => togglePost(post.id)}>{post.title}</h3>
@@ -102,7 +104,7 @@ const TanstackSec: React.FC = () => {
                     openPosts[post.id] && (
                         <>
                             <p>{post.body}</p>
-                            <button
+                            <button className='edit'
                                 onClick={() => {
                                     setEditingPostId(post.id);
                                     setEditedTitle(post.title);
@@ -111,13 +113,13 @@ const TanstackSec: React.FC = () => {
                             >
                                 Edit
                             </button>
-                            <button onClick={() => handleDelete(post.id)}>Delete</button>
+                            <button className='delete' onClick={() => handleDelete(post.id)}>Delete</button>
                         </>
                     )
                 )}
             </div>
         ))}
-
+</div>
     </>)
 }
 
