@@ -19,6 +19,12 @@ const Sidebar: React.FC = () => {
                             className={({ isActive }) => (isActive ? 'active' : '')}
                         >Settings</NavLink>
                     </li>
+                    <li>
+                        <NavLink
+                            to="/dashboard/tanstacksec"
+                            className={({ isActive }) => (isActive ? 'active' : '')}
+                        >TanStack Section</NavLink>
+                    </li>
                 </ul>
             </nav>
         </aside>
