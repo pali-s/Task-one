@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
-import Postform from '../../components/Postform/Postform';
+import Postform from '../../components/modal/Postform/Postform';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { deletePost, fetchPosts, updatePostById } from '../../api/posts';
-// import './tanstack.css'
+import './tanstack.css'
+import Searchbar from '../../components/Searchbar/Searchbar';
 
 const TanstackSec: React.FC = () => {
     const queryClient = useQueryClient();
+    const [filteredPosts, setFilteredPosts] = useState<any[]>([]);
 
+    const [showModal, setShowModal] = useState(false);
     const [editingPostId, setEditingPostId] = useState<number | null>(null);
     const [editedTitle, setEditedTitle] = useState("");
     const [editedBody, setEditedBody] = useState("");
@@ -36,20 +39,20 @@ const TanstackSec: React.FC = () => {
 
 
     //EDIT MUTATION
-    const{mutate:editPostMutate}=useMutation<any,
-    unknown,{id:number;postData:{title:string;body:string}}>({
-        mutationFn:updatePostById,
-        onSuccess: (updatedPost) => {
-            queryClient.setQueryData(['posts'], (oldPosts: any[]) =>
-                oldPosts.map((post) =>
-                    post.id === updatedPost.id ? updatedPost : post
-                )
-            );
-        }
-    })
+    const { mutate: editPostMutate } = useMutation<any,
+        unknown, { id: number; postData: { title: string; body: string } }>({
+            mutationFn: updatePostById,
+            onSuccess: (updatedPost) => {
+                queryClient.setQueryData(['posts'], (oldPosts: any[]) =>
+                    oldPosts.map((post) =>
+                        post.id === updatedPost.id ? updatedPost : post
+                    )
+                );
+            }
+        })
 
-    const handleEdit=(id:number,newData:{title:string,body:string})=>{
-        editPostMutate({id,postData:newData});
+    const handleEdit = (id: number, newData: { title: string, body: string }) => {
+        editPostMutate({ id, postData: newData });
     }
 
     if (isLoading) {
@@ -68,58 +71,69 @@ const TanstackSec: React.FC = () => {
         }))
     }
 
-    return (<><h1>Practice Page</h1>
-        <Postform />
-        <h2 style={{textAlign:'center'}}>Find Your Post Here:</h2>
-        <div className="container">
-        {posts.map((post: any) => (
-            <div key={post.id}>
-                <h3 onClick={() => togglePost(post.id)}>{post.title}</h3>
+    const handleClose = () => {
+        setShowModal(false);
+    }
 
-                {editingPostId === post.id ? (
-                    <>
-                        <input
-                            type="text"
-                            value={editedTitle}
-                            onChange={(e) => setEditedTitle(e.target.value)}
-                            placeholder="Title"
-                        />
-                        <input
-                            type="text"
-                            value={editedBody}
-                            onChange={(e) => setEditedBody(e.target.value)}
-                            placeholder="Body"
-                        />
-                        <button
-                            onClick={() => {
-                                handleEdit(post.id, { title: editedTitle, body: editedBody });
-                                setEditingPostId(null); // close editing
-                            }}
-                        >
-                            Save
-                        </button>
-                        <button onClick={() => setEditingPostId(null)}>Cancel</button>
-                    </>
-                ) : (
-                    openPosts[post.id] && (
+    return (<><h1 style={{ textAlign: 'center' }}>Practice Page</h1>
+        <Searchbar posts={posts} onFilter={setFilteredPosts} />
+        <h2 style={{ textAlign: 'center' }}>Find Your Post Here:</h2>
+        <div className="container">
+            {(filteredPosts && filteredPosts.length > 0
+                ? filteredPosts
+                : posts
+            ).map((post: any) => (
+                <div className="post-container" key={post.id}>
+                    <h3 onClick={() => togglePost(post.id)}>{post.title}</h3>
+
+
+                    {editingPostId === post.id ? (
                         <>
-                            <p>{post.body}</p>
-                            <button className='edit'
+                            <input
+                                type="text"
+                                value={editedTitle}
+                                onChange={(e) => setEditedTitle(e.target.value)}
+                                placeholder="Title"
+                            />
+                            <input
+                                type="text"
+                                value={editedBody}
+                                onChange={(e) => setEditedBody(e.target.value)}
+                                placeholder="Body"
+                            />
+                            <button
                                 onClick={() => {
-                                    setEditingPostId(post.id);
-                                    setEditedTitle(post.title);
-                                    setEditedBody(post.body);
+                                    handleEdit(post.id, { title: editedTitle, body: editedBody });
+                                    setEditingPostId(null); // close editing
                                 }}
                             >
-                                Edit
+                                Save
                             </button>
-                            <button className='delete' onClick={() => handleDelete(post.id)}>Delete</button>
+                            <button onClick={() => setEditingPostId(null)}>Cancel</button>
                         </>
-                    )
-                )}
-            </div>
-        ))}
-</div>
+                    ) : (
+                        openPosts[post.id] && (
+                            <>
+                                <p>{post.body}</p>
+                                <div className='button-container'>
+                                    <button className='edit'
+                                        onClick={() => {
+                                            setEditingPostId(post.id);
+                                            setEditedTitle(post.title);
+                                            setEditedBody(post.body);
+                                        }}
+                                    >
+                                        Edit
+                                    </button>
+                                    <button className='delete' onClick={() => handleDelete(post.id)}>Delete</button></div>
+                            </>
+                        )
+                    )}
+                </div>
+            ))}
+        </div>
+        <button className='openModal' onClick={() => setShowModal(true)}>Add a Post</button>
+        {showModal && <Postform handleClose={handleClose} />}
     </>)
 }
 

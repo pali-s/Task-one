@@ -2,13 +2,28 @@
   "posts": [
     {
       "id": "29fd",
-      "title": "post one",
+      "title": "Post One",
       "body": "This is the content of post one."
     },
     {
-      "id": "2ddc",
-      "title": "post two",
-      "body": "This is the content of post two."
+      "title": "Another Post",
+      "body": "Content for another post goes here.",
+      "id": "5b3e"
+    },
+    {
+      "title": "Learning JSON",
+      "body": "JSON is a lightweight data-interchange format.",
+      "id": "7c1d"
+    },
+    {
+      "title": "The Legend",
+      "body": "History books do tell you about this absolute legend with a legendary story.",
+      "id": "9a7c"
+    },
+    {
+      "id": "3676",
+      "title": "Exploring TanStack Query",
+      "body": "Use of useQuery, useMutation."
     }
   ]
 }

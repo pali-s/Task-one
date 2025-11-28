@@ -19,11 +19,7 @@ function App() {
           </PrivateRoute>}>
       <Route index element={<Profile/>}/>
       <Route path='settings' element={<Settings/>}/>
-      <Route path='tanstacksec' element={<TanstackSec/>}>
-        <Route index element={<TanstackSec/>}/>
-        <Route path=':id' element={<TanstackSec/>}/>
-        <Route path='edit/:id' element={<TanstackSec/>}/>
-      </Route>
+      <Route path='tanstacksec' element={<TanstackSec/>}/>
 
       </Route>
 

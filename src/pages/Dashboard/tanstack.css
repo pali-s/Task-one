@@ -2,6 +2,18 @@
 .container {
     max-width: 800px;
     margin: 0 auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+}
+
+.post-container{
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
 .post {
@@ -14,7 +26,7 @@
 }
 
 .post h3 {
-    cursor: pointer;
+    cursor: pointer !important;
     color: #2c3e50;
 }
 
@@ -31,6 +43,12 @@ input {
     border: 1px solid #ccc;
 }
 
+.button-container {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
 button {
     padding: 0.5rem 1rem;
     border: none;
@@ -39,17 +57,17 @@ button {
 }
 
 button.save {
-    background-color: #27ae60;
+    background-color: brown;
     color: white;
 }
 
 button.cancel {
-    background-color: #c0392b;
+    background-color: #e74c3c;
     color: white;
 }
 
 button.edit {
-    background-color: #2980b9;
+    background-color: brown;
     color: white;
 }
 
